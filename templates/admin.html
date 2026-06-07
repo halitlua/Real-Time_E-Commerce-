@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+    Order Fulfillment Dashboard
+</title>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet">
+
+<script>
+
+tailwind.config = {
+
+    darkMode: "class",
+
+    theme: {
+
+        extend: {
+
+            colors: {
+
+                primary: "#334155",
+
+                background: "#f8fafc",
+
+                surface: "#ffffff",
+
+                outline: "#e2e8f0",
+
+                text: "#0f172a",
+
+                muted: "#64748b",
+
+                success: "#16a34a",
+
+                warning: "#f59e0b",
+
+                danger: "#dc2626"
+
+            },
+
+            spacing: {
+
+                gutter: "24px",
+
+                card: "20px"
+
+            }
+
+        }
+
+    }
+
+}
+
+</script>
+
+<style>
+
+body {
+
+    font-family: "Inter", sans-serif;
+}
+
+.material-symbols-outlined {
+
+    font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+
+    background: #cbd5e1;
+
+    border-radius: 999px;
+}
+
+</style>
+
+</head>
+
+<body class="bg-background text-text h-screen overflow-hidden flex">
+
+<!-- SIDEBAR -->
+
+<aside
+    class="
+    fixed
+    left-0
+    top-0
+    h-full
+    w-60
+    bg-slate-900
+    text-slate-200
+    border-r
+    border-outline
+    flex
+    flex-col
+    z-50">
+
+    <div class="p-6">
+
+        <div class="flex items-center gap-3">
+
+            <div
+    class="
+    w-10
+    h-10
+    rounded-lg
+    bg-slate-900
+    text-white
+    flex
+    items-center
+    justify-center">
+
+    <span class="material-symbols-outlined">
+        <div
+class="w-10 h-10 bg-slate-900 rounded-lg
+text-white flex items-center justify-center
+font-bold">
+
+PF
+
+</div>
+    </span>
+
+</div>
+
+            <div>
+
+                <h2
+                    class="
+                    text-lg
+                    font-bold
+                    text-primary">
+
+                    Order Management
+
+                </h2>
+
+                <p
+                    class="
+                    text-xs
+                    text-muted">
+
+                    Parallel Fulfillment System
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <nav class="px-4 space-y-2">
+
+        <a
+            href="#"
+            class="
+            flex
+            items-center
+            gap-3
+            px-4
+            py-3
+            rounded-xl
+            bg-primary
+            text-white
+            font-medium">
+
+            <span class="material-symbols-outlined">
+
+                dashboard
+
+            </span>
+
+            Dashboard
+
+        </a>
+
+    </nav>
+
+    <div class="mt-auto p-4 border-t border-outline">
+
+        <div
+            class="
+            flex
+            items-center
+            gap-3">
+
+          <div
+    class="
+    w-10
+    h-10
+    rounded-full
+    bg-slate-800
+    text-white
+    flex
+    items-center
+    justify-center">
+
+    <span class="material-symbols-outlined">
+        admin_panel_settings
+    </span>
+
+</div>
+
+            <div>
+
+                <div
+                    class="
+                    text-sm
+                    font-semibold">
+
+                    System Administrator
+
+
+                </div>
+
+                <div
+                    class="
+                    text-xs
+                    text-muted">
+
+                    Parallel Computing Lab
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+
+<main
+    class="
+    ml-60
+    flex-1
+    flex
+    flex-col
+    h-screen">
+<!-- TOP HEADER -->
+
+<header
+    class="
+    h-20
+    border-b
+    border-outline
+    bg-white
+    px-8
+    flex
+    items-center
+    justify-between">
+
+    <div>
+
+        <h1
+            class="
+            text-3xl
+            font-bold">
+
+            LogisticsPro Fulfillment Center
+
+        </h1>
+
+        <p
+            class="
+            text-sm
+            text-muted">
+
+            Monitor customer orders,
+            worker assignments,
+            and processing progress.
+
+        </p>
+
+    </div>
+
+    <div
+        class="
+        flex
+        items-center
+        gap-4">
+
+        <div
+            class="
+            relative">
+
+            <span
+                class="
+                material-symbols-outlined
+                absolute
+                left-3
+                top-1/2
+                -translate-y-1/2
+                text-muted">
+
+                search
+
+            </span>
+
+            <input
+
+                id="searchBox"
+
+                type="text"
+
+                placeholder="Search orders..."
+
+                class="
+                pl-10
+                pr-4
+                py-2
+                w-72
+                rounded-xl
+                border
+                border-outline
+                focus:outline-none
+                focus:ring-2
+                focus:ring-primary/20">
+
+        </div>
+
+    </div>
+
+</header>
+
+<!-- PAGE CONTENT -->
+
+<div
+    class="
+    flex-1
+    overflow-y-auto
+    custom-scrollbar
+    p-6">
+
+    <!-- METRIC CARDS -->
+
+    <div
+        class="
+        grid
+        grid-cols-1
+        md:grid-cols-2
+        xl:grid-cols-4
+        gap-6
+        mb-6">
+
+        <!-- Queue -->
+
+        <div
+            class="
+            bg-white
+            border
+            border-outline
+            rounded-xl
+            p-5
+            shadow-sm">
+
+            <div
+                class="
+                flex
+                justify-between
+                items-start">
+
+                <span
+                    class="
+                    text-xs
+                    font-semibold
+                    text-muted">
+
+                    Waiting Queue
+
+
+                </span>
+
+                <span
+                    class="
+                    material-symbols-outlined
+                    text-primary">
+
+                    schedule
+
+                </span>
+
+            </div>
+
+            <div
+                class="
+                mt-4
+                flex
+                items-end
+                gap-2">
+
+                <span
+                    id="queueCount"
+                    class="
+                    text-5xl
+                    font-bold">
+
+                    0
+
+                </span>
+
+                <span
+                    class="
+                    text-green-600
+                    text-sm
+                    font-medium">
+
+                    
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- Processing -->
+
+        <div
+            class="
+            bg-white
+            border
+            border-outline
+            rounded-xl
+            p-5
+            shadow-sm">
+
+            <div
+                class="
+                flex
+                justify-between
+                items-start">
+
+                <span
+                    class="
+                    text-xs
+                    font-semibold
+                    text-muted">
+
+                    Processing
+
+
+                </span>
+
+                <span
+                    class="
+                    material-symbols-outlined
+                    text-primary">
+
+                    pending
+
+                </span>
+
+            </div>
+
+            <div
+                class="
+                mt-4
+                flex
+                items-end
+                gap-2">
+
+                <span
+                    id="processingCount"
+                    class="
+                    text-5xl
+                    font-bold">
+
+                    0
+
+                </span>
+
+                <span
+                    class="
+                    text-primary
+                    text-sm
+                    font-medium">
+
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- Completed -->
+
+        <div
+            class="
+            bg-white
+            border
+            border-outline
+            rounded-xl
+            p-5
+            shadow-sm">
+
+            <div
+                class="
+                flex
+                justify-between
+                items-start">
+
+                <span
+                    class="
+                    text-xs
+                    font-semibold
+                    text-muted">
+
+                    Completed
+
+                </span>
+
+                <span
+                    class="
+                    material-symbols-outlined
+                    text-primary">
+
+                    check_circle
+
+                </span>
+
+            </div>
+
+            <div
+                class="
+                mt-4
+                flex
+                items-end
+                gap-2">
+
+                <span
+                    id="completedCount"
+                    class="
+                    text-5xl
+                    font-bold">
+
+                    0
+
+                </span>
+
+                <span
+                    class="
+                    text-primary
+                    text-sm
+                    font-medium">
+
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- Total -->
+
+        <div
+            class="
+            bg-white
+            border
+            border-outline
+            rounded-xl
+            p-5
+            shadow-sm">
+
+            <div
+                class="
+                flex
+                justify-between
+                items-start">
+
+                <span
+                    class="
+                    text-xs
+                    font-semibold
+                    text-muted">
+
+                    Total Orders
+
+                </span>
+
+                <span
+                    class="
+                    material-symbols-outlined
+                    text-primary">
+
+                    inventory_2
+
+                </span>
+
+            </div>
+
+            <div
+                class="
+                mt-4
+                flex
+                items-end
+                gap-2">
+
+                <span
+                    id="totalCount"
+                    class="
+                    text-5xl
+                    font-bold">
+
+                    0
+
+                </span>
+
+                <span
+                    class="
+                    text-sm
+                    text-muted">
+
+ 
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DASHBOARD GRID -->
+
+    <div
+        class="
+        grid
+        grid-cols-12
+        gap-6">
+<!-- LEFT SIDE -->
+
+<div
+    class="
+    col-span-12
+    lg:col-span-9">
+
+    <!-- TRACKING BOARD -->
+
+    <div
+        class="
+        bg-white
+        border
+        border-outline
+        rounded-xl
+        shadow-sm">
+
+        <!-- CARD HEADER -->
+
+        <div
+            class="
+            px-6
+            py-5
+            border-b
+            border-outline
+            flex
+            items-center
+            justify-between">
+
+            <div>
+
+                <h2
+                    class="
+                    text-xl
+                    font-bold">
+
+                    Main Tracking Board
+
+                </h2>
+
+                <p
+                    class="
+                    text-sm
+                    text-muted">
+
+                    Real-time order tracking and fulfillment status
+
+                </p>
+
+            </div>
+
+            <div
+                class="
+                flex
+                items-center
+                gap-2">
+
+                <span
+                    class="
+                    h-2
+                    w-2
+                    rounded-full
+                    bg-green-500">
+
+                </span>
+
+                <span
+                    class="
+                    text-sm
+                    text-muted">
+
+                    Live Updates
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- TABLE -->
+
+        <div
+            class="
+            overflow-x-auto">
+
+            <table
+                class="
+                w-full">
+
+                <thead>
+
+                    <tr
+                        class="
+                        bg-slate-50
+                        text-left">
+
+                        <th
+                            class="
+                            px-6
+                            py-4
+                            text-xs
+                            uppercase
+                            text-muted
+                            font-semibold">
+
+                            Order ID
+
+                        </th>
+
+                        <th
+                            class="
+                            px-6
+                            py-4
+                            text-xs
+                            uppercase
+                            text-muted
+                            font-semibold">
+
+                            Customer
+
+                        </th>
+
+                        <th
+                            class="
+                            px-6
+                            py-4
+                            text-xs
+                            uppercase
+                            text-muted
+                            font-semibold">
+
+                            Product
+
+                        </th>
+
+                        <th
+                            class="
+                            px-6
+                            py-4
+                            text-xs
+                            uppercase
+                            text-muted
+                            font-semibold">
+
+                            Qty
+
+                        </th>
+
+                        <th
+                            class="
+                            px-6
+                            py-4
+                            text-xs
+                            uppercase
+                            text-muted
+                            font-semibold">
+
+                            Status
+
+                        </th>
+
+                        <th
+                            class="
+                            px-6
+                            py-4
+                            text-xs
+                            uppercase
+                            text-muted
+                            font-semibold">
+
+                            Worker
+
+                        </th>
+
+                        <th
+                            class="
+                            px-6
+                            py-4
+                            text-xs
+                            uppercase
+                            text-muted
+                            font-semibold">
+
+                            Tracking
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <!-- DYNAMIC ROWS -->
+
+                <tbody
+                    id="ordersTable"
+                    class="
+                    divide-y
+                    divide-slate-100">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- WORKER MONITOR -->
+
+    <div
+        class="
+        mt-6
+        bg-white
+        border
+        border-outline
+        rounded-xl
+        shadow-sm">
+
+        <div
+            class="
+            px-6
+            py-5
+            border-b
+            border-outline">
+
+            <h2
+                class="
+                text-xl
+                font-bold">
+
+                Worker Status
+
+            </h2>
+
+            <p
+                class="
+                text-sm
+                text-muted">
+
+                Current worker assignments
+
+            </p>
+
+        </div>
+
+        <div
+            id="workersContainer"
+            class="
+            p-6
+            grid
+            grid-cols-1
+            md:grid-cols-2
+            xl:grid-cols-3
+            gap-6">
+
+        </div>
+
+    </div>
+
+</div>
+<!-- RIGHT SIDE PANEL -->
+
+<div
+    class="
+    col-span-12
+    lg:col-span-3">
+
+    <!-- SYSTEM SIMULATION -->
+
+    <div
+        class="
+        bg-white
+        border
+        border-outline
+        rounded-xl
+        shadow-sm">
+
+        <div
+            class="
+            px-6
+            py-5
+            border-b
+            border-outline">
+
+            <h2
+                class="
+                text-xl
+                font-bold">
+
+                Stress Test
+
+
+            </h2>
+
+            <p
+                class="
+                text-sm
+                text-muted">
+
+                Create test orders for queue processing
+
+            </p>
+
+        </div>
+
+        <div
+            class="
+            p-6
+            space-y-3">
+
+            <button
+
+                onclick="generateOrders(10)"
+
+                class="
+                w-full
+                py-3
+                rounded-xl
+                bg-[#0f172a]
+                hover:bg-[#1e293b]
+                text-white
+                font-medium
+                transition">
+
+                Generate 10 Orders
+
+            </button>
+
+            <button
+
+                onclick="generateOrders(50)"
+
+                class="
+                w-full
+                py-3
+                rounded-xl
+                bg-[#0f172a]
+                hover:bg-[#1e293b]
+                text-white
+                font-medium
+                transition">
+
+                Generate 50 Orders
+
+            </button>
+
+            <button
+
+                onclick="generateOrders(100)"
+
+                class="
+                w-full
+                py-3
+                rounded-xl
+                bg-[#0f172a]
+                hover:bg-[#1e293b]
+                text-white
+                font-medium
+                transition">
+
+                Generate 100 Orders
+
+            </button>
+
+            <button
+
+                onclick="clearDatabase()"
+
+                class="
+                w-full
+                py-3
+                rounded-xl
+                bg-[#0f172a]
+                hover:bg-[#1e293b]
+                text-white
+                font-medium
+                transition">
+
+                Clear Database
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- TIMELINE VIEWER -->
+
+    <div
+        class="
+        bg-white
+        border
+        border-outline
+        rounded-xl
+        shadow-sm">
+
+        <div
+            class="
+            px-6
+            py-5
+            border-b
+            border-outline">
+
+            <div
+                class="
+                flex
+                items-center
+                justify-between">
+
+                <div>
+
+                    <h2
+                        class="
+                        text-xl
+                        font-bold">
+
+                        Timeline Viewer
+
+                    </h2>
+
+                    <p
+                        class="
+                        text-sm
+                        text-muted">
+
+                        Real-time fulfillment progress
+
+                    </p>
+
+                </div>
+
+                <span
+
+                    id="selectedOrder"
+
+                    class="
+                    px-3
+                    py-1
+                    rounded-lg
+                    bg-blue-50
+                    text-blue-600
+                    text-sm
+                    font-semibold">
+
+                    No Order Selected
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <div
+            class="
+            p-6">
+
+            <!-- DYNAMIC TIMELINE -->
+
+            <div
+                id="timelineContainer"
+                class="
+                space-y-5">
+
+                <div
+                    class="
+                    text-center
+                    text-slate-400
+                    py-8">
+
+                    Click an order from the tracking board
+                    to view its fulfillment timeline.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- END RIGHT PANEL -->
+
+</div>
+
+<!-- END DASHBOARD GRID -->
+
+</div>
+
+<!-- END PAGE CONTENT -->
+
+</main>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+
+</html>

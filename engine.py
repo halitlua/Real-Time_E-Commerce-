@@ -17,12 +17,12 @@ WORKER_STATUS = {
 }
 
 STAGES = [
-    "💳 Validating Payment",
-    "📦 Checking Inventory",
-    "🏷️ Generating Shipping Label",
-    "🎁 Packaging Asset",
-    "🚚 Ready for Shipment",
-    "✅ Completed"
+    "Validating Payment",
+    "Checking Inventory",
+    "Generating Shipping Label",
+    "Packaging Asset",
+    "Ready for Shipment",
+    "Completed"
 ]
 
 
@@ -44,7 +44,7 @@ def worker_loop(name):
                     random.uniform(1, 3)
                 )
 
-                if stage == "💳 Validating Payment":
+                if stage == "Validating Payment":
 
                     database.update_order_status(
                         oid,
@@ -52,7 +52,7 @@ def worker_loop(name):
                         worker=name
                     )
 
-                elif stage == "🏷️ Generating Shipping Label":
+                elif stage == "Generating Shipping Label":
 
                     database.update_order_status(
                         oid,
@@ -74,7 +74,6 @@ def worker_loop(name):
 
             order_queue.task_done()
 
-
 def poller():
 
     while True:
@@ -90,7 +89,7 @@ def poller():
                 SELECT id
                 FROM orders
                 WHERE status=
-                '⏳ Pending in Queue'
+                'Pending in Queue'
                 """
             )
 
@@ -99,7 +98,7 @@ def poller():
                 c.execute(
                     """
                     UPDATE orders
-                    SET status='🔄 Queueing...'
+                    SET status='Queueing...'
                     WHERE id=?
                     """,
                     (oid,)
@@ -110,7 +109,6 @@ def poller():
                 order_queue.put(oid)
 
         time.sleep(1)
-
 
 def start_engine():
 

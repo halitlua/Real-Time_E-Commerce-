@@ -88,12 +88,12 @@ def add_order(
                 ?, ?, ?, ?, ?, ?, ?, ?
             )
             """,
-            (
+                (
                 order_id,
                 customer,
                 product,
                 qty,
-                "⏳ Pending in Queue",
+                "Pending in Queue",
                 "Unassigned",
                 "Pending",
                 timestamp
@@ -114,10 +114,10 @@ def add_order(
                 ?, ?, ?, ?
             )
             """,
-            (
+                (
                 order_id,
                 timestamp,
-                "🛒 Order Created",
+                "Order Created",
                 None
             )
         )
@@ -291,5 +291,21 @@ def get_timeline(
         )
 
         return cursor.fetchall()
+
+
+# ==========================================
+# CLEAR DATABASE (orders + timeline)
+# ==========================================
+
+def clear_database():
+
+    with sqlite3.connect(DB_FILE) as conn:
+
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM timeline")
+        cursor.execute("DELETE FROM orders")
+
+        conn.commit()
 
         

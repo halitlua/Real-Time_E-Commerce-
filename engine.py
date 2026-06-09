@@ -11,9 +11,9 @@ database.init_db()
 order_queue = queue.Queue()
 
 WORKER_STATUS = {
-    "Worker-Alpha": "Idle",
-    "Worker-Beta": "Idle",
-    "Worker-Gamma": "Idle"
+    "Worker Alpha": "Idle",
+    "Worker Beta": "Idle",
+    "Worker Gamma": "Idle"
 }
 
 STAGES = [
@@ -119,11 +119,11 @@ def start_engine():
 
     for w in [
 
-        "Worker-Alpha",
+        "Worker Alpha",
 
-        "Worker-Beta",
+        "Worker Beta",
 
-        "Worker-Gamma"
+        "WorkerGamma"
     ]:
 
         threading.Thread(

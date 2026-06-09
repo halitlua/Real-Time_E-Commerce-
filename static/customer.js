@@ -91,17 +91,20 @@ async function loadOrders() {
             "customerName"
         ).value.trim();
 
-    if (!customer)
+    if (!customer) {
+        // Do not expose other customers' orders. Clear table and timeline.
+        document.getElementById("ordersTable").innerHTML = "";
+        document.getElementById("timelineContainer").innerHTML = "";
+        document.getElementById("timelineTitle").textContent = "Order Timeline";
         return;
+    }
+
+    const url = `/api/customer/orders/${encodeURIComponent(customer)}`;
 
     try {
 
-        const response =
-            await fetch(
 
-                `/api/customer/orders/${encodeURIComponent(customer)}`
-
-            );
+        const response = await fetch(url);
 
         const orders =
             await response.json();
@@ -174,12 +177,6 @@ async function loadOrders() {
                         ${order.status}
 
                     </span>
-
-                </td>
-
-                <td class="px-6 py-4">
-
-                    ${order.worker || "-"}
 
                 </td>
 
@@ -332,22 +329,16 @@ document.addEventListener(
             );
         }
 
+        // initial load
+        loadOrders();
+
         setInterval(async () => {
+            await loadOrders();
 
-    if (
-        customerInput &&
-        customerInput.value.trim()
-    ) {
-
-        await loadOrders();
-    }
-
-    if (currentOrderId) {
-
-        await loadTimeline(currentOrderId);
-    }
-
-}, 2000);
+            if (currentOrderId) {
+                await loadTimeline(currentOrderId);
+            }
+        }, 2000);
 
     }
 

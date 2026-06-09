@@ -135,7 +135,7 @@ async function loadOrders(searchText = "") {
 
                 <td class="px-6 py-4">
 
-                    ${order.worker || "-"}
+                    ${(order.worker || "-").replaceAll("-", " ")}
 
                 </td>
 

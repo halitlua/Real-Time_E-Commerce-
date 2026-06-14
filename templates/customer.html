@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LogisticsPro | Customer Portal</title>
+    <title>Order Fulfillment Dashboard</title>
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -66,6 +66,45 @@
             width: 2px;
             background-color: #e2e8f0;
             z-index: 0;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 16px 24px;
+            background: #16a34a;
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .toast.error {
+            background: #dc2626;
         }
     </style>
 </head>
@@ -136,14 +175,22 @@ PF
             </a>
         </nav>
 
+        <!-- Logout Button -->
+        <div class="px-4 pb-4">
+            <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-200 font-medium transition">
+                <span class="material-symbols-outlined">logout</span>
+                Logout
+            </button>
+        </div>
+
         <div class="mt-auto p-4 border-t border-slate-800">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center">
                     <span class="material-symbols-outlined">person</span>
                 </div>
                 <div>
-                    <div class="text-sm font-semibold text-white">Valued Customer</div>
-                    <div class="text-xs text-slate-400">External Client Account</div>
+                    <div class="text-sm font-semibold text-white">{{ session.get('user') or 'Valued Customer' }}</div>
+                    <div class="text-xs text-slate-400">Customer Account</div>
                 </div>
             </div>
         </div>
@@ -173,45 +220,34 @@ PF
 
                 <section class="col-span-12 lg:col-span-5 bg-white border border-outline rounded-xl p-6 shadow-sm flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center gap-2 mb-5">
+                        <div class="flex items-center gap-2 mb-3">
                             <span class="material-symbols-outlined text-primary">add_shopping_cart</span>
                             <h2 class="text-xl font-bold">Place Your Order</h2>
                         </div>
+                        <div class="text-sm text-muted mb-4">Welcome, {{ session.get('user') or '' }}</div>
 
                         <form id="orderForm" class="space-y-4">
                             <div>
-                                <label class="block mb-1.5 text-xs font-semibold text-muted uppercase tracking-wider">Customer Name</label>
-                                <input id="customerName" type="text" placeholder="Enter company or individual name"
-                                    class="w-full h-11 px-4 rounded-xl border border-outline focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition text-sm">
-                            </div>
-
-                            <div>
-                                <label class="block mb-1.5 text-xs font-semibold text-muted uppercase tracking-wider">Product Category</label>
+                                <label class="block mb-1.5 text-xs font-semibold text-muted uppercase tracking-wider">Product</label>
                                 <select id="product" class="w-full h-11 px-4 rounded-xl border border-outline focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition text-sm">
-                                    <option>Gaming Mouse</option>
-                                    <option>Mechanical Keyboard</option>
-                                    <option>Monitor</option>
-                                    <option>Headset</option>
-                                    <option>Webcam</option>
-                                    <option>Microphone</option>
-                                    <option>SSD Drive</option>
-                                    <option>Laptop</option>
+                                    <option disabled selected>Loading products...</option>
                                 </select>
+                                <div id="productDetails" class="mt-3">
+                                    <div class="flex justify-center">
+                                        <img id="prodThumb" src="" alt="Product image" class="w-48 h-48 object-cover rounded border hidden" />
+                                    </div>
+                                    <div class="mt-3 text-center">
+                                        <div id="prodTitle" class="font-semibold text-lg">&nbsp;</div>
+                                        <div id="prodPrice" class="text-sm text-muted mt-1">&nbsp;</div>
+                                        <div id="prodStockAvailable" class="text-sm text-muted mt-1">&nbsp;</div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div>
                                 <label class="block mb-1.5 text-xs font-semibold text-muted uppercase tracking-wider">Quantity</label>
                                 <select id="qty" class="w-full h-11 px-4 rounded-xl border border-outline focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition text-sm">
                                     <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
                                 </select>
                             </div>
                         </form>
@@ -237,6 +273,14 @@ PF
                         </button>
                     </div>
 
+                    <!-- Order Filter -->
+                    <div class="px-6 py-3 border-b border-outline bg-slate-50 flex gap-2">
+                        <button onclick="filterOrders('all')" data-filter="all" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-primary text-white transition" id="filterAll">All</button>
+                        <button onclick="filterOrders('pending')" data-filter="pending" class="px-3 py-1.5 text-xs font-medium rounded-lg border border-outline text-slate-700 hover:bg-slate-50 transition" id="filterPending">Pending</button>
+                        <button onclick="filterOrders('completed')" data-filter="completed" class="px-3 py-1.5 text-xs font-medium rounded-lg border border-outline text-slate-700 hover:bg-slate-50 transition" id="filterCompleted">Completed</button>
+                        <button onclick="filterOrders('out-of-stock')" data-filter="out-of-stock" class="px-3 py-1.5 text-xs font-medium rounded-lg border border-outline text-slate-700 hover:bg-slate-50 transition" id="filterOutOfStock">Out of Stock</button>
+                    </div>
+
                     <div class="overflow-x-auto flex-1">
                         <table class="w-full text-left border-collapse">
                             <thead>
@@ -260,6 +304,18 @@ PF
                 <div class="flex items-center gap-2 mb-6 border-b border-outline pb-4">
                     <span class="material-symbols-outlined text-primary">route</span>
                     <h2 id="timelineTitle" class="text-xl font-bold">Order Timeline</h2>
+                </div>
+
+                <!-- Progress Bar -->
+                <div id="progressSection" class="mb-6 hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-sm font-semibold">Order Progress</div>
+                        <div class="text-sm font-semibold text-primary" id="progressPercentage">0%</div>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-2">
+                        <div id="progressBar" class="bg-primary h-2 rounded-full transition-all" style="width: 0%"></div>
+                    </div>
+                    <div class="text-xs text-muted mt-2" id="progressStage">Initializing...</div>
                 </div>
 
                 <div id="timelineContainer" class="relative timeline-line pl-10 space-y-6">

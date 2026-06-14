@@ -1,76 +1,24 @@
-# Parallel Fulfillment System
+# DEVELOPER.md
 
-## Project Overview
+## Parallel Fulfillment System
 
-The Parallel Fulfillment System is a web-based order processing application developed using Python, Flask, SQLite, HTML, CSS, and JavaScript.
-
-The system simulates a real-world fulfillment center where customer orders are processed concurrently by multiple worker threads. Orders progress through several fulfillment stages, including payment validation, inventory checking, shipping label generation, packaging, and completion.
-
-The project demonstrates:
-
-* Parallel Computing
-* Multi-threading
-* Queue-based Processing
-* Real-Time Monitoring
-* Database Integration
-* Web Application Development
+**Real-Time E-Commerce Order Processing and Tracking System**
 
 ---
 
-# System Architecture
+## Overview
 
-Frontend
+The Parallel Fulfillment System is a Flask-based web application developed to demonstrate the practical application of Parallel and Distributed Computing concepts in a simulated e-commerce environment.
 
-* Customer Portal
-* Admin Dashboard
-* HTML
-* Tailwind CSS
-* JavaScript
+The system allows customers to place and track orders while administrators monitor fulfillment activities, worker performance, inventory levels, and operational analytics.
 
-Backend
-
-* Flask
-* Python
-
-Database
-
-* SQLite
-
-Processing Engine
-
-* Queue
-* Worker Threads
-* Order Scheduler
+The application emphasizes queue management, multithreading, and real-time processing to illustrate how parallel execution improves efficiency in business operations.
 
 ---
 
-# Folder Structure
+## Technology Stack
 
-```text
-Parallel Computing/
-│
-├── app.py
-├── engine.py
-├── database.py
-├── orders.db
-│
-├── templates/
-│   ├── admin.html
-│   └── customer.html
-│
-├── static/
-│   ├── app.js
-│   ├── customer.js
-│   └── style.css
-│
-└── developer.md
-```
-
----
-
-# Technologies Used
-
-Backend
+### Backend
 
 * Python 3.x
 * Flask
@@ -78,237 +26,300 @@ Backend
 * Threading
 * Queue
 
-Frontend
+### Frontend
 
 * HTML5
 * Tailwind CSS
-* JavaScript
+* Vanilla JavaScript
+* Chart.js
+
+### Database
+
+* SQLite
 
 ---
 
-# Installation Guide
+## Project Structure
 
-## Step 1: Install Python
-
-Download and install Python:
-
-https://www.python.org/downloads/
-
-Verify installation:
-
-```bash
-python --version
+```
+Parallel Computing/
+│
+├── app.py
+├── engine.py
+├── database.py
+├── templates/
+│   ├── login.html
+│   ├── signup.html
+│   ├── admin.html
+│   └── customer.html
+│
+├── static/
+│   ├── app.js
+│   ├── customer.js
+│   ├── uploads/
+│   └── images/
+│
+├── orders.db
+├── README.md
+└── DEVELOPER.md
 ```
 
 ---
 
-## Step 2: Install Flask
+## Core Features
 
-Open terminal:
+### Customer Portal
+
+* User registration and login
+* Session-based authentication
+* Product browsing
+* Product image previews
+* Real-time inventory synchronization
+* Order placement
+* Order history
+* Order timeline viewer
+* Order status filtering
+
+---
+
+### Administrator Dashboard
+
+* Main tracking board
+* Real-time order monitoring
+* Worker status monitoring
+* Inventory management
+* Product management
+* Analytics dashboard
+* Worker utilization statistics
+* Sequential vs Parallel benchmarking
+* Restore Demo Data functionality
+
+---
+
+## Parallel Processing Architecture
+
+### Queue-Based Processing
+
+Incoming orders are initially placed into a queue.
+
+```
+Customer Order
+      ↓
+ Pending Queue
+      ↓
+ Worker Assignment
+```
+
+Python's Queue module ensures fair scheduling and organized task distribution.
+
+---
+
+### Worker Threads
+
+The fulfillment engine utilizes three concurrent worker threads:
+
+* Worker Alpha
+* Worker Beta
+* Worker Gamma
+
+Each worker independently processes queued orders.
+
+```
+Queue
+├─ Worker Alpha
+├─ Worker Beta
+└─ Worker Gamma
+```
+
+---
+
+## Fulfillment Workflow
+
+Each order progresses through the following stages:
+
+1. Validating Payment
+2. Checking Inventory
+3. Generating Shipping Label
+4. Packaging Asset
+5. Ready for Shipment
+6. Completed
+
+If inventory is insufficient:
+
+```
+Checking Inventory
+        ↓
+Out of Stock
+```
+
+The order terminates safely without affecting other worker threads.
+
+---
+
+## Inventory Workflow
+
+Inventory deduction occurs during fulfillment processing rather than order submission.
+
+Workflow:
+
+```
+Customer Places Order
+        ↓
+Pending in Queue
+        ↓
+Worker Assigned
+        ↓
+Checking Inventory
+        ↓
+Stock Deducted
+        ↓
+Fulfillment Continues
+```
+
+This approach better simulates real-world warehouse operations.
+
+---
+
+## Worker Metrics
+
+The system records:
+
+### Orders Processed
+
+Example:
+
+```
+Worker Alpha : 42 Orders
+Worker Beta  : 38 Orders
+Worker Gamma : 40 Orders
+```
+
+### Busy Time
+
+Example:
+
+```
+Worker Alpha : 8 Minutes
+Worker Beta  : 7 Minutes
+Worker Gamma : 9 Minutes
+```
+
+### Utilization
+
+Example:
+
+```
+Alpha : 35%
+Beta  : 32%
+Gamma : 33%
+```
+
+Metrics are automatically collected during worker execution.
+
+---
+
+## Benchmarking
+
+The application compares:
+
+### Sequential Processing
+
+* Single worker
+* Orders processed one at a time
+
+### Parallel Processing
+
+* Three concurrent workers
+* Queue-based distribution
+
+Sample Benchmark:
+
+| Orders | Sequential | Parallel |
+| ------ | ---------- | -------- |
+| 10     | 34 sec     | 12 sec   |
+| 50     | 168 sec    | 58 sec   |
+| 100    | 336 sec    | 113 sec  |
+
+These measurements demonstrate the benefits of parallel execution.
+
+---
+
+## Database Reset
+
+The administrator can restore the application to its demonstration state.
+
+The reset operation:
+
+### Resets
+
+* Orders
+* Timelines
+* Worker statistics
+* Analytics data
+* Inventory quantities
+
+### Preserves
+
+* Administrator accounts
+* Customer accounts
+* Product images
+* Authentication data
+
+---
+
+## Running the Application
+
+Install dependencies:
 
 ```bash
 pip install flask
 ```
 
-Verify installation:
-
-```bash
-pip show flask
-```
-
----
-
-# Running the System
-
-## Step 1: Open Project Folder
-
-```bash
-cd "E:\Code\Parallel Computing"
-```
-
----
-
-## Step 2: Start Application
+Start the application:
 
 ```bash
 python app.py
 ```
 
-Expected output:
+Access:
 
-```text
-* Running on http://127.0.0.1:5000
 ```
+Login:
+http://127.0.0.1:5000/login
 
----
+Admin Dashboard:
+http://127.0.0.1:5000/admin
 
-## Step 3: Open Browser
-
-Admin Dashboard
-
-```text
-http://127.0.0.1:5000
-```
-
-Customer Portal
-
-```text
+Customer Portal:
 http://127.0.0.1:5000/customer
 ```
 
 ---
 
-# Customer Portal
+## Educational Objectives
 
-Features:
+This project was developed to demonstrate:
 
-* Create Orders
-* View Order History
-* Track Order Progress
-* View Timeline Updates
-* Real-Time Refresh
-
-Workflow:
-
-1. Enter Customer Name
-2. Select Product
-3. Select Quantity
-4. Click Submit Order
-5. Monitor Order Progress
+* Queue management
+* Multithreading
+* Concurrent task execution
+* Real-time monitoring
+* Worker workload distribution
+* Operational analytics
+* Performance benchmarking
+* Practical applications of Parallel and Distributed Computing concepts
 
 ---
 
-# Admin Dashboard
+## Authors
 
-Features:
+Developed as a course project for Parallel and Distributed Computing.
 
-* Monitor Orders
-* View Worker Status
-* Track Fulfillment Progress
-* Generate Test Orders
-* Clear Database
-* Real-Time Dashboard Updates
+Author:
+John Benedict Reyes
 
----
+Institution:
+TIP MANILA
 
-# Parallel Processing Implementation
-
-The system uses:
-
-```python
-threading.Thread()
-```
-
-and
-
-```python
-queue.Queue()
-```
-
-Three worker threads operate simultaneously:
-
-```text
-Worker-Alpha
-Worker-Beta
-Worker-Gamma
-```
-
-Each worker continuously consumes orders from the queue and processes them independently.
-
----
-
-# Fulfillment Stages
-
-Orders progress through the following stages:
-
-1. Pending in Queue
-2. Queueing
-3. Validating Payment
-4. Checking Inventory
-5. Generating Shipping Label
-6. Packaging Asset
-7. Ready for Shipment
-8. Completed
-
----
-
-# Database
-
-Database File:
-
-```text
-orders.db
-```
-
-Stores:
-
-* Orders
-* Status Updates
-* Worker Assignments
-* Tracking Numbers
-* Timestamps
-
----
-
-# Troubleshooting
-
-## Flask Not Found
-
-Install Flask:
-
-```bash
-pip install flask
-```
-
----
-
-## Database Missing
-
-Delete existing database:
-
-```text
-orders.db
-```
-
-Restart application:
-
-```bash
-python app.py
-```
-
-Database will be recreated automatically.
-
----
-
-## Port Already In Use
-
-Change port in app.py:
-
-```python
-app.run(
-    host="0.0.0.0",
-    port=5001,
-    debug=True
-)
-```
-
----
-
-# Authors
-
-Developed for:
-
-Parallel Computing Project
-
-Technologies:
-
-* Python
-* Flask
-* SQLite
-* HTML
-* Tailwind CSS
-* JavaScript
-
-Purpose:
-
-Simulation of a distributed order fulfillment system utilizing parallel worker threads and queue-based processing.
+Academic Year:
+2025–2026

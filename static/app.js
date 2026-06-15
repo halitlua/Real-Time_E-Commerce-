@@ -138,9 +138,31 @@ async function loadInventoryAdmin() {
         if (document.getElementById('totalProducts')) document.getElementById('totalProducts').textContent = totalProducts;
         if (document.getElementById('lowStockCount')) document.getElementById('lowStockCount').textContent = lowStockCount;
         if (document.getElementById('outOfStockCount')) document.getElementById('outOfStockCount').textContent = outOfStockCount;
-        if (document.getElementById('inventoryValue')) document.getElementById('inventoryValue').textContent = '₱' + totalValue.toFixed(2);
+        updateInventoryValue(totalValue);
     } catch (e) {
         console.error(e);
+    }
+}
+
+function updateInventoryValue(totalValue) {
+    const el = document.getElementById('inventoryValue');
+    if (!el) return;
+
+    const value = '₱' + totalValue.toFixed(2);
+    el.textContent = value;
+
+    let fontSize = 48;
+    const minFontSize = 20;
+    el.style.fontSize = fontSize + 'px';
+    el.style.lineHeight = '1';
+
+    while (
+        el.parentElement &&
+        el.scrollWidth > el.parentElement.clientWidth &&
+        fontSize > minFontSize
+    ) {
+        fontSize -= 2;
+        el.style.fontSize = fontSize + 'px';
     }
 }
 

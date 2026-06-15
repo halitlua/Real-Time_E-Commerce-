@@ -1,8 +1,8 @@
-# Parallel Fulfillment System
+# Shopora
 
-**Real-Time E-Commerce Order Processing and Tracking System**
+**Smarter Shopping Starts Here.**
 
-A Flask-based web application developed to demonstrate the practical application of **Parallel and Distributed Computing** concepts through a simulated e-commerce fulfillment environment.
+Shopora is a Flask-based e-commerce fulfillment application developed to demonstrate the practical application of **Parallel and Distributed Computing** concepts through a simulated online shopping environment.
 
 The system allows customers to place and track orders while administrators monitor inventory, worker performance, fulfillment progress, and operational analytics in real time.
 

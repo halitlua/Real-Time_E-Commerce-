@@ -1,0 +1,8 @@
+<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Shopora monogram</title>
+  <desc id="desc">A minimal shopping bag icon with an abstract S.</desc>
+  <rect x="4" y="4" width="48" height="48" rx="10" fill="#0f172a"/>
+  <path d="M18 24h20l2 20H16l2-20Z" stroke="#ffffff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M22 24c0-5 3-8 6-8s6 3 6 8" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M34 30c-2-2-10-2-10 2 0 5 11 2 11 8 0 4-8 4-12 1" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+</svg>

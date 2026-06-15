@@ -44,6 +44,20 @@ engine.start_engine()
 
 
 @app.route("/")
+def index():
+
+    if session.get("role") == "ADMIN":
+
+        return redirect("/admin")
+
+    if session.get("role") == "CUSTOMER":
+
+        return redirect("/customer")
+
+    return redirect("/login")
+
+
+@app.route("/admin")
 def admin():
 
     if session.get("role") != "ADMIN":
@@ -115,7 +129,7 @@ def login():
 
             if user["role"] == "ADMIN":
 
-                return redirect("/")
+                return redirect("/admin")
 
             return redirect("/customer")
 
